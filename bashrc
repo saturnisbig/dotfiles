@@ -66,7 +66,14 @@ export PATH="/usr/local/heroku/bin:$PATH"
 # see https://gist.github.com/pithyless/1208841
 # see also http://matrix.windhunter.net/blog/2012/01/setup-python-env-on-lion-471.html
 export WORKON_HOME=$HOME/envs
-export VIRTUALENVWRAPPER_PYTHON=/usr/local/bin/python
+##################################################
+# Check platform to set the python path
+if [[ $(uname) == 'Linux' ]]; then
+  export VIRTUALENVWRAPPER_PYTHON=/usr/bin/python
+elif [[ $(uname) == 'Darwin' ]]; then
+  export VIRTUALENVWRAPPER_PYTHON=/usr/local/bin/python
+fi
+##################################################
 export VIRTUALENVWRAPPER_VIRTUALENV_ARGS='--no-site-packages'
 export PIP_VIRTUALENV_BASE=$WORKON_HOME
 export PIP_RESPECT_VIRTUALENV=true
