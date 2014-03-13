@@ -99,9 +99,9 @@ platform=$(uname);
 export WORKON_HOME=$HOME/envs
 ##################################################
 # Check platform to set the python path
-if [[ $(uname) == 'Linux' ]]; then
+if [[ platform == 'Linux' ]]; then
   export VIRTUALENVWRAPPER_PYTHON=/usr/bin/python
-elif [[ $(uname) == 'Darwin' ]]; then
+elif [[ platform == 'Darwin' ]]; then
   export VIRTUALENVWRAPPER_PYTHON=/usr/local/bin/python
 fi
 ##################################################
