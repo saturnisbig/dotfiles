@@ -56,6 +56,9 @@ alias gx='gitx --all'
 alias got='git '
 alias get='git '
 
+## pip aliases
+alias pipcache='pip install --download ${HOME}/.pip/tmp/'
+alias pipinstall='pip install --no-index --find-links=file://${HOME}/.pip/tmp/'
 # qfind - used to quickly find files that contain a string in a directory
 qfind () {
     find . -exec grep -l -s $1 {} \;
