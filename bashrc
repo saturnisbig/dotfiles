@@ -33,6 +33,24 @@ alias ls="ls -Glah"
 ## pip aliases
 alias pipcache='pip install --download ${HOME}/.pip/tmp/'
 alias pipinstall='pip install --no-index --find-links=file://${HOME}/.pip/tmp/'
+
+## Git Aliases
+alias gs='git status '
+alias ga='git add '
+alias gb='git branch '
+alias gc='git commit'
+alias gd='git diff'
+alias go='git checkout '
+alias gk='gitk --all&'
+alias gx='gitx --all'
+alias got='git '
+alias get='git '
+
+## apt-get alias
+alias ai="sudo apt-get install"
+alias ar="sudo apt-get autoremove"
+alias ad="sudo apt-get update"
+alias ag="sudo apt-get upgrade"
 ##############################################################################
 # 03. Theme/Colors                                                           #
 ##############################################################################
