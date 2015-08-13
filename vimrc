@@ -119,7 +119,7 @@ nmap <leader>f :find<cr>
 "Fast reloading of the .vimrc
 "map <leader>s :source! ~/.vim/vimrc<cr>
 "Fast editing of .vimrc
-map <leader>e :e! ~/.vim/vimrc<cr>
+map <leader>e :e! ~/.vimrc<cr>
 "When .vimrc is edited, reload it
 autocmd! bufwritepost .vimrc source ~/.vim/vimrc
 
@@ -194,8 +194,16 @@ else
   "colorscheme solarized
   "colorscheme peaksea 
   "colorscheme molokai
-  colorscheme Tomorrow-Night
+  "colorscheme Tomorrow-Night
+  if(strftime("%w") == 0 || strftime("%w") == 1)
+    colorscheme molokai
+  elseif(strftime("%w") <= 4 && strftime("%w") > 1)
+    colorscheme peaksea
+  else
+    colorscheme Tomorrow-Night-Eighties
+  endif
 endif
+
 
 "Some nice mapping to switch syntax (useful if one mixes different languages in one file)
 map <leader>1 :set syntax=cheetah<cr>
@@ -258,8 +266,8 @@ set backspace=eol,start,indent
 "Bbackspace and cursor keys wrap to
 set whichwrap+=<,>,h,l
 
-"Ignore case when searching
-set ignorecase
+"Ignore case when searching, smartcase for case sensitive if Caps in search
+set ignorecase smartcase
 set incsearch
 
 "Set magic on
@@ -653,6 +661,7 @@ let g:snipMate = {}
 "See ~/.vim/bundle/vim-snipmate/doc/SnipMate.txt line 141
 :imap <C-J> <Plug>snipMateNextOrTrigger
 :smap <C-J> <Plug>snipMateNextOrTrigger
+let g:SuperTabDefaultCompletionType = "context"
 "2011年06月01日 21:36:24 Teddy Fish -- set snipMate
 "let g:snippets_dir='~/.vim/bundle/snipMate/snippets/'
 "autocmd FileType html set ft=html.markdown
@@ -691,6 +700,9 @@ let g:airline_theme="molokai"
 function! AirlineInit()
   call airline#parts#define_raw('linenr', '%l')
   call airline#parts#define_accent('linenr', 'bold')
-  let g:airline_section_z = airline#section#create(['linenr', ':%c', '%3p%%', g:airline_symbols.linenr, '%L '])
+  let g:airline_section_z = airline#section#create(['linenr', ':%c ', '%3p%%', g:airline_symbols.linenr, '%L '])
 endfunction
 autocmd VimEnter * call AirlineInit()
+
+" vim Jedi - comment out to turn off
+" let g:jedi#auto_initialization = 0
