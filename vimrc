@@ -1,7 +1,7 @@
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Maintainer:	Teddy Fish<i.kenting at gmail.com>
 " Version: 1.0
-" Last Change: 2016-07-06 23:13:05
+" Last Change: 2017-05-15 07:04:37
 "
 " Sections:
 " ----------------------
@@ -104,14 +104,16 @@ Plugin 'scrooloose/nerdtree'
 Plugin 'scrooloose/nerdcommenter'
 " 全局搜索 
 Plugin 'kien/ctrlp.vim'
-Plugin 'altercation/vim-colors-solarized'
-Plugin 'jnurmine/Zenburn'
 Plugin 'Valloric/YouCompleteMe'
 " 启动后会自动折叠代码，蛋疼
  Plugin 'tmhedberg/SimpylFold'
 " class method and function list
 Plugin 'majutsushi/tagbar'
 Plugin 'python-mode/python-mode'
+" 配色
+Plugin 'dracula/vim'
+Plugin 'altercation/vim-colors-solarized'
+Plugin 'jnurmine/Zenburn'
 
 call vundle#end()
 
@@ -205,25 +207,23 @@ syntax on
 "  "set gfn=Inconsolata\ 14
 "endif
 "
+set background=dark
 if has("gui_running")
   set guioptions-=T
-  set background=dark
   "colorscheme molokai
   colorscheme solarized
 else
   "set background=light
-  set background=dark
   if(strftime("%w") == 0 || strftime("%w") == 1)
-    "colorscheme molokai
-    colorscheme zenburn
+    colorscheme dracula
   elseif(strftime("%w") == 2 || strftime("%w") == 3)
     colorscheme molokai
      "colorscheme Tomorrow-Night
-     "colorscheme tango
   elseif(strftime("%w") == 4)
      colorscheme peaksea
   else
-    colorscheme Tomorrow-Night-Eighties
+    colorscheme zenburn
+    "colorscheme Tomorrow-Night-Eighties
   endif
 endif
 
@@ -600,9 +600,10 @@ let NERDTreeIgnore=['\.pyc', '\.swp', '\~']
 " tagbar
 nmap <F4> :TagbarToggle<CR>
 let g:tagbar_ctags_bin='/usr/bin/ctags'  " Proper Ctags locations
-let g:tagbar_width=26                          " Default is 40, seems too wide
+let g:tagbar_width=28                          " Default is 40, seems too wide
 noremap <leader>y :TagbarToggle<CR>       " Display panel with y (or ,y)
 " python_pep8_indent 配置
 let g:python_pep8_indent_multipline_string=-2
 " python-mode
 "hi pythonSelf ctermfg=174 guifg=#6094DB cterm=bold gui=bold
+" nerdcommenter 

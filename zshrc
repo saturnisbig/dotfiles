@@ -101,8 +101,10 @@ plugins=(git)
 source $ZSH/oh-my-zsh.sh
 
 ### Added by the Heroku Toolbelt
-export PATH="/usr/local/heroku/bin:$PATH"
+export PATH="$PATH:/home/teddy/code/bin"
 
+# Python Path将自己的库放在该目录下，便于导入
+export PYTHONPATH=$PYTHONPATH:/home/teddy/code/lib/python
 # Python virtualenvwrapper
 # see https://gist.github.com/pithyless/1208841
 # see also http://matrix.windhunter.net/blog/2012/01/setup-python-env-on-lion-471.html
