@@ -2,7 +2,7 @@
 
 # Explicitly configured $PATH variable
 #PATH=/usr/local/git/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/opt/local/bin:/opt/local/sbin:/usr/X11/bin
-PATH=/usr/local/bin:$PATH
+PATH=/usr/local/bin:$PATH:/usr/local/go/bin
 
 # Path to your oh-my-zsh configuration.
 ZSH=$HOME/.oh-my-zsh
@@ -11,6 +11,7 @@ ZSH=$HOME/.oh-my-zsh
 # Look in ~/.oh-my-zsh/themes/
 # Optionally, if you set this to "random", it'll load a random theme each
 # time that oh-my-zsh is loaded.
+#ZSH_THEME="dracula"
 ZSH_THEME="xiong-chiamiov-plus"
 #ZSH_THEME="random"
 
@@ -18,7 +19,7 @@ ZSH_THEME="xiong-chiamiov-plus"
 # CASE_SENSITIVE="true"
 
 # Comment this out to disable weekly auto-update checks
-# DISABLE_AUTO_UPDATE="true"
+DISABLE_AUTO_UPDATE="true"
 
 # Uncomment following line if you want to disable colors in ls
 # DISABLE_LS_COLORS="true"
@@ -31,7 +32,7 @@ COMPLETION_WAITING_DOTS="true"
 
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Example format: plugins=(rails git textmate ruby lighthouse)
-plugins=(git osx)
+plugins=(git osx autojump)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -51,7 +52,7 @@ alias ga='git add '
 alias gb='git branch '
 alias gc='git commit'
 alias gd='git diff'
-alias go='git checkout '
+alias gco='git checkout '
 alias gk='gitk --all&'
 alias gx='gitx --all'
 alias got='git '
@@ -101,7 +102,11 @@ plugins=(git)
 source $ZSH/oh-my-zsh.sh
 
 ### Added by the Heroku Toolbelt
-export PATH="$PATH:/home/teddy/code/bin"
+export PATH="$PATH:/home/teddy/code/bin:$(go env GOPATH)/bin"
+# for sogou
+export GTK_IM_MODULE=fcitx      
+export QT_IM_MODULE=fcitx      
+export XMODIFIERS="@im=fcitx" 
 
 # Python Path将自己的库放在该目录下，便于导入
 export PYTHONPATH=$PYTHONPATH:/home/teddy/code/lib/python
@@ -109,7 +114,7 @@ export PYTHONPATH=$PYTHONPATH:/home/teddy/code/lib/python
 # see https://gist.github.com/pithyless/1208841
 # see also http://matrix.windhunter.net/blog/2012/01/setup-python-env-on-lion-471.html
 platform=$(uname);
-export WORKON_HOME=$HOME/envs
+export WORKON_HOME=~/envs
 ##################################################
 # Check platform to set the python path
 if [[ platform == 'Linux' ]]; then

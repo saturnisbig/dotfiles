@@ -73,6 +73,8 @@ set fileencodings=ucs-bom,utf-8,cp936,GB18030,big5,euc-jp,euc-kr,gbk,latin1
 "Get out of VI's compatible mode..
 set nocompatible
 filetype off
+" 启用matchit，匹配关键字
+runtime macros/matchit.vim
 
 " set the runtime path to include Vundle and initialize
 set rtp+=~/.vim/bundle/Vundle.vim
@@ -91,9 +93,9 @@ Plugin 'vim-airline/vim-airline'
 Plugin 'vim-airline/vim-airline-themes'
 Plugin 'mattn/emmet-vim'
 " 语法检查
-Plugin 'scrooloose/syntastic'
-Plugin 'nvie/vim-flake8'
-Plugin 'hynek/vim-python-pep8-indent'
+"Plugin 'scrooloose/syntastic'
+"Plugin 'nvie/vim-flake8'
+"Plugin 'Vimjas/vim-python-pep8-indent'
 "Plugin 'davidhalter/jedi-vim'
 Plugin 'SirVer/ultisnips'
 Plugin 'honza/vim-snippets'
@@ -109,11 +111,18 @@ Plugin 'Valloric/YouCompleteMe'
  Plugin 'tmhedberg/SimpylFold'
 " class method and function list
 Plugin 'majutsushi/tagbar'
-Plugin 'python-mode/python-mode'
+Plugin 'python-mode/python-mode', {'for': 'python'}
 " 配色
 Plugin 'dracula/vim'
-Plugin 'altercation/vim-colors-solarized'
-Plugin 'jnurmine/Zenburn'
+"Plugin 'altercation/vim-colors-solarized'
+"Plugin 'jnurmine/Zenburn'
+Plugin 'tpope/vim-surround'
+Plugin 'tpope/tpope-vim-abolish'
+Plugin 'tpope/vim-markdown'
+" ale语法检查
+Plugin 'w0rp/ale'
+" Go
+Plugin 'fatih/vim-go'
 
 call vundle#end()
 
@@ -133,6 +142,8 @@ set mouse=a
 "Set mapleader
 let mapleader = ","
 let g:mapleader = ","
+" 重新映射,
+noremap \ ,
 
 "Fast saving
 nmap <leader>w :w!<cr>
@@ -143,19 +154,18 @@ nmap <leader>f :find<cr>
 "Fast editing of .vimrc
 map <leader>e :e! ~/.vimrc<cr>
 "When .vimrc is edited, reload it
-autocmd! bufwritepost .vimrc source ~/.vim/vimrc
+autocmd! bufwritepost ~/.vimrc source ~/dotfiles/vimrc
 
 " syntastic checker 2013-09-30 13:26:06 Teddy Fish 
-set statusline+=%#warningmsg#
-set statusline+=%{SyntasticStatuslineFlag()}
-set statusline+=%*
+"set statusline+=%#warningmsg#
+"set statusline+=%{SyntasticStatuslineFlag()}
+"set statusline+=%*
 
 let g:syntastic_always_populate_loc_list = 0
 let g:syntastic_auto_loc_list = 0
 let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 0
-" let g:syntastic_python_checkers = ['flake8', 'pylint']
-let g:syntastic_python_checkers = []
+let g:syntastic_python_checkers = ['flake8', 'pylint']
 
 "" set 256 colors 
 set t_Co=256
@@ -206,26 +216,31 @@ syntax on
 "  "set gfn=Consolas\ 14
 "  "set gfn=Inconsolata\ 14
 "endif
-"
+
 set background=dark
 if has("gui_running")
   set guioptions-=T
   "colorscheme molokai
   colorscheme solarized
 else
-  "set background=light
-  if(strftime("%w") == 0 || strftime("%w") == 1)
-    colorscheme dracula
-  elseif(strftime("%w") == 2 || strftime("%w") == 3)
-    colorscheme molokai
-     "colorscheme Tomorrow-Night
-  elseif(strftime("%w") == 4)
-     colorscheme peaksea
+  if (strftime("%w") % 2 == 0)
+    color dracula
   else
-    colorscheme zenburn
-    "colorscheme Tomorrow-Night-Eighties
-  endif
+    color molokai
+  endif 
 endif
+  "set background=light
+  "if(strftime("%w") == 0 || strftime("%w") == 1)
+  "  colorscheme dracula
+  "elseif(strftime("%w") == 2 || strftime("%w") == 3)
+  "  colorscheme molokai
+  "   "colorscheme Tomorrow-Night
+  "elseif(strftime("%w") == 4)
+  "   colorscheme peaksea
+  "else
+  "  "colorscheme zenburn
+  "  colorscheme Tomorrow-Night-Eighties
+  "endif
 
 
 "Some nice mapping to switch syntax (useful if one mixes different languages in one file)
@@ -264,9 +279,10 @@ set ffs=unix,dos,mac
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 ""Set 7 lines to the curors - when moving vertical..
 "set so=7
-"
-""Turn on WiLd menu
-""set wildmenu
+
+"Turn on WiLd menu
+set wildmenu
+set wildmode=full
 "
 ""Always show current position
 "set ruler
@@ -458,8 +474,8 @@ set foldlevel=99
 
 " SimpyIFold settings
 let g:SimpylFold_docstring_preview=1
-autocmd BufWinEnter *.py setlocal foldexpr=SimpylFold(v:lnum) foldmethod=expr
-autocmd BufWinLeave *.py setlocal foldexpr< foldmethod<
+"autocmd BufWinEnter *.py setlocal foldexpr=SimpylFold(v:lnum) foldmethod=expr
+"autocmd BufWinLeave *.py setlocal foldexpr< foldmethod<
 
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -481,8 +497,9 @@ autocmd BufWinLeave *.py setlocal foldexpr< foldmethod<
 "\ set shiftwidth=2
 " for Markdown syntax 
 autocmd FileType markdown,html setl shiftwidth=4 sts=4 ts=4
-" Teddy Fish added for python indent 2016-07-06 23:25:49 
-"autocmd BufNewFile,BufRead *.py
+" 2017-06-30 13:30:40  markdown语法
+"autocmd BufNewFile,BufReadPost *.md filetype=markdown
+let g:markdown_syntax_conceal = 0
 "\ set tabstop=4
 "\ set softtabstop=4
 "\ set shiftwidth=4
@@ -537,6 +554,20 @@ let python_highlight_all = 1
 "autocmd FileType python set makeprg=python\ -c\ \"import\ py_compile,sys;\ sys.stderr=sys.stdout;\ py_compile.compile(r'%')\"
 "autocmd FileType python set efm=%C\ %.%#,%A\ \ File\ \"%f\"\\,\ line\ %l%.%#,%Z%[%^\ ]%\\@=%m
 "
+"按F5运行python"
+function! RunPython()
+	let mp = &makeprg 
+	let ef = &errorformat 
+	let exeFile =expand("%:t") 
+	setlocal makeprg=python\ -u
+       	set efm=%C\ %.%#,%A\ \ File\ \"%f\"\\,\ line\ %l%.%#,%Z%[%^\ ]%\\@=%m 
+	silent make %
+       	copen
+       	let &makeprg = mp
+       	let &errorformat = ef
+endfunction
+map <F5> :call RunPython()<CR>
+
 "Run in the Python interpreter
 function! Python_Eval_VSplit() range
   let src = tempname()
@@ -588,6 +619,14 @@ map <leader>gg  :YcmCompleter GoToDefinitionElseDeclaration<CR>
 "YCM will use the first python executable it finds in the PATH to run jedi. This means that if you are in a virtual environment and you start vim in that directory, the first python that YCM will find will be the one in the virtual environment, so jedi will be able to provide completions for every package you have in the virtual environment.
 let g:ycm_python_binary_path = 'python'
 let g:ycm_filetype_blacklist = {'vimwiki': 1, 'md': 1}
+" 开始补全的字符数
+let g:ycm_min_num_of_chars_for_completion=2
+" 禁止缓存匹配项
+let g:ycm_cache_omnifunc=0
+" 字符串中也开启补全
+let g:ycm_complete_in_strings=1
+" 是否在注释中也开启补全
+let g:ycm_complete_in_comments=1
 
 " Ultisnips settings
 let g:UltiSnipsExpandTrigger="<c-j>"
@@ -603,7 +642,35 @@ let g:tagbar_ctags_bin='/usr/bin/ctags'  " Proper Ctags locations
 let g:tagbar_width=28                          " Default is 40, seems too wide
 noremap <leader>y :TagbarToggle<CR>       " Display panel with y (or ,y)
 " python_pep8_indent 配置
-let g:python_pep8_indent_multipline_string=-2
-" python-mode
-"hi pythonSelf ctermfg=174 guifg=#6094DB cterm=bold gui=bold
-" nerdcommenter 
+"let g:python_pep8_indent_multipline_string=-2
+
+" python-mode Settings {{{
+hi pythonSelf ctermfg=174 guifg=#6094DB cterm=bold gui=bold
+let g:pymode_rope = 0
+let g:pymode_rope_completion = 0
+let g:pymode_doc = 0
+let g:pymode_folding = 0
+" 2018-05-12 13:47:15 pep8 indent style
+let g:pymode_indent = 1
+" enable automatic virtualenv detection
+let g:pymode_virtualenv = 1
+" run code
+let g:pymode_run = 1
+let g:pymode_run_bind = '<leader>r'
+" 2018-05-12 13:53:26 
+let g:pymode_lint = 0
+"let g:pymode_lint_write = 0
+" }}}
+" ale
+" 在进入的时候不检查文件语法
+let g:ale_lint_on_enter = 0
+" 使用quickfix来替换loclist，并打开窗口显示相应的信息
+let g:ale_set_loclist = 0
+let g:ale_set_quickfix = 1
+" let g:ale_open_list = 1
+" 让窗口一直打开着
+"let g:ale_keep_list_window_open = 1
+" support mouse copy
+if has('mouse')
+	set mouse-=a
+endif

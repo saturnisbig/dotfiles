@@ -59,6 +59,10 @@ export CLICOLOR=1
 # Set "ls" colors
 export LSCOLORS=Gxfxcxdxbxegedabagacad
 
+# for sogou
+export GTK_IM_MODULE=fcitx      
+export QT_IM_MODULE=fcitx      
+export XMODIFIERS="@im=fcitx" 
 #export PS1="\u@\h:\w $"
 ##export PS1=":~ )"
 #export CLICOLOR=1
