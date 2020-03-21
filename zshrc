@@ -12,8 +12,13 @@ ZSH=$HOME/.oh-my-zsh
 # Optionally, if you set this to "random", it'll load a random theme each
 # time that oh-my-zsh is loaded.
 #ZSH_THEME="dracula"
-ZSH_THEME="xiong-chiamiov-plus"
+#ZSH_THEME="xiong-chiamiov-plus"
+ZSH_THEME="agnoster" # (this is one of the fancy ones)
 #ZSH_THEME="random"
+#ZSH_THEME_RANDOM_CANDIDATES=(
+#  "agnoster"
+#  "xiong-chiamiov-plus"
+#)
 
 # Set to this to use case-sensitive completion
 # CASE_SENSITIVE="true"
@@ -32,9 +37,9 @@ COMPLETION_WAITING_DOTS="true"
 
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Example format: plugins=(rails git textmate ruby lighthouse)
-plugins=(git osx autojump)
+#plugins=(git osx autojump)
 
-source $ZSH/oh-my-zsh.sh
+#source $ZSH/oh-my-zsh.sh
 
 # Put any proprietary or private functions/values in ~/.private, and this will source them
 if [ -f $HOME/.private ]; then
@@ -63,10 +68,10 @@ alias pipcache='pip install --download ${HOME}/.pip/tmp/'
 alias pipinstall='pip install --no-index --find-links=file://${HOME}/.pip/tmp/'
 
 ## apt-get alias
-alias ai="sudo apt-get install"
-alias ar="sudo apt-get autoremove"
-alias ad="sudo apt-get update"
-alias ag="sudo apt-get upgrade"
+alias ai="sudo apt install"
+alias ar="sudo apt autoremove"
+alias ad="sudo apt update"
+alias ag="sudo apt upgrade"
 
 # qfind - used to quickly find files that contain a string in a directory
 qfind () {
@@ -97,7 +102,7 @@ fi
 
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Example format: plugins=(rails git textmate ruby lighthouse)
-plugins=(git)
+plugins=(git osx autojump)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -131,3 +136,6 @@ if [[ -r /usr/local/bin/virtualenvwrapper.sh ]]; then
 else
   echo "WARNING: Can't find virtualenvwrapper.sh"
 fi
+
+# autojump自动补全
+autoload -U compinit && compinit 
