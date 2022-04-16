@@ -1,6 +1,10 @@
 dotfiles
 ========
 
+# 配置文件说明
+
+mac_zshrc: zshrc for Mac
+
 How to use:
 
     $git clone git@github.com:saturnisbig/dotfiles ~/dotfiles

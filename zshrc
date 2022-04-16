@@ -67,12 +67,6 @@ alias get='git '
 alias pipcache='pip install --download ${HOME}/.pip/tmp/'
 alias pipinstall='pip install --no-index --find-links=file://${HOME}/.pip/tmp/'
 
-## apt-get alias
-alias ai="sudo apt install"
-alias ar="sudo apt autoremove"
-alias ad="sudo apt update"
-alias ag="sudo apt upgrade"
-
 # qfind - used to quickly find files that contain a string in a directory
 qfind () {
     find . -exec grep -l -s $1 {} \;
@@ -104,38 +98,27 @@ fi
 # Example format: plugins=(rails git textmate ruby lighthouse)
 plugins=(git osx autojump)
 
-source $ZSH/oh-my-zsh.sh
-
-### Added by the Heroku Toolbelt
-export PATH="$PATH:/home/teddy/code/bin:$(go env GOPATH)/bin"
-# for sogou
-export GTK_IM_MODULE=fcitx      
-export QT_IM_MODULE=fcitx      
-export XMODIFIERS="@im=fcitx" 
-
-# Python Path将自己的库放在该目录下，便于导入
-export PYTHONPATH=$PYTHONPATH:/home/teddy/code/lib/python
-# Python virtualenvwrapper
-# see https://gist.github.com/pithyless/1208841
-# see also http://matrix.windhunter.net/blog/2012/01/setup-python-env-on-lion-471.html
-platform=$(uname);
-export WORKON_HOME=~/envs
-##################################################
-# Check platform to set the python path
-if [[ platform == 'Linux' ]]; then
-  export VIRTUALENVWRAPPER_PYTHON=/usr/bin/python
-elif [[ platform == 'Darwin' ]]; then
-  export VIRTUALENVWRAPPER_PYTHON=/usr/local/bin/python
-fi
-##################################################
-export VIRTUALENVWRAPPER_VIRTUALENV_ARGS='--no-site-packages'
-export PIP_VIRTUALENV_BASE=$WORKON_HOME
-export PIP_RESPECT_VIRTUALENV=true
-if [[ -r /usr/local/bin/virtualenvwrapper.sh ]]; then
-  source /usr/local/bin/virtualenvwrapper.sh
-else
-  echo "WARNING: Can't find virtualenvwrapper.sh"
-fi
 
 # autojump自动补全
 autoload -U compinit && compinit 
+
+# >>> conda initialize >>>
+# !! Contents within this block are managed by 'conda init' !!
+__conda_setup="$('/User/teddy/opt/anaconda3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
+if [ $? -eq 0 ]; then
+    eval "$__conda_setup"
+else
+    if [ -f "/User/teddy/opt/anaconda3/etc/profile.d/conda.sh" ]; then
+        . "/User/teddy/opt/anaconda3/etc/profile.d/conda.sh"
+    else
+        export PATH="/User/teddy/opt/anaconda3/bin:$PATH"
+    fi
+fi
+unset __conda_setup
+# <<< conda initialize <<<
+# 用户名隐藏
+prompt_context() {
+  if [[ "$USER" != "$DEFAULT_USER" || -n "$SSH_CLIENT" ]]; then
+    prompt_segment black default "%(!.%{%F{yellow}%}.)$USER"
+  fi
+}
